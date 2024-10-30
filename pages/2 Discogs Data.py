@@ -4,19 +4,32 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import plotly.express as px
 import plotly.graph_objects as go
+import gdown
 
 from sklearn.preprocessing import StandardScaler
 from sklearn.cluster import KMeans
 
+
+
+
 st.set_page_config(layout="wide")
 
+
+# Define Google Drive file ID and URL
+file_id = '1Nj9VxvM0euJj2XRLfsEBh3Io5XhJniKW'
+url = f'https://drive.google.com/uc?id={file_id}'
+output = 'discogs_clean.csv'
+
 @st.cache_data
-def load_data(file_path):
-    df_discogs = pd.read_csv(file_path)
+def load_data_from_gdrive(url, output):
+    # Download the file from Google Drive
+    gdown.download(url, output, quiet=False)
+    # Load the CSV into a DataFrame
+    df_discogs = pd.read_csv(output)
     return df_discogs
 
-file_path = 'data/discogs_clean.csv'
-df_discogs = load_data(file_path)
+# Load the data
+df_discogs = load_data_from_gdrive(url, output)
 
 
 st.image("Discogs_logo.png")
